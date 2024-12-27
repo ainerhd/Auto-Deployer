@@ -1,0 +1,42 @@
+projekt_vps_automatisierung/
+├── app/
+│   ├── __init__.py        # Initialisiert das Backend
+│   ├── main.py            # Startpunkt der API
+│   ├── config.py          # API-Schlüssel, DB-Verbindung
+│   ├── models.py          # Datenbankmodelle
+│   ├── schemas.py         # Pydantic-Validierungen
+│   ├── crud.py            # Datenbankoperationen
+│   ├── api/
+│   │   ├── __init__.py
+│   │   ├── endpoints/
+│   │   │   ├── vms.py         # API für VPS/VDS
+│   │   │   ├── servers.py     # API für Gameserver
+│   │   │   ├── users.py       # Benutzerverwaltung
+│   │   └── dependencies.py    # Datenbankverbindungen
+├── frontend/                 # Web-Frontend
+│   ├── public/               # Statische Dateien
+│   ├── src/
+│   │   ├── components/       # React/Vue-Komponenten
+│   │   │   ├── Dashboard.js  # Übersicht
+│   │   │   ├── VMManager.js  # VM-Verwaltung
+│   │   │   ├── GameServer.js # Gameserver-Verwaltung
+│   │   └── App.js            # Haupt-App-Datei
+│   ├── package.json          # Abhängigkeiten (npm/yarn)
+│   └── vite.config.js        # Webpack/Vite-Konfiguration
+├── scripts/
+│   ├── setup_gameserver.py   # Gameserver-Skripte
+│   ├── deploy_vm.py          # VM-Skripte
+├── database/
+│   ├── migrations/           # Migrationen
+│   └── init_db.py            # Datenbankinitialisierung
+├── docker/
+│   ├── Dockerfile            # Docker-Backend
+│   ├── docker-compose.yml    # Docker-Setup für Fullstack
+├── tests/
+│   ├── test_vms.py           # Tests für VMs
+│   ├── test_servers.py       # Tests für Gameserver
+│   └── test_users.py         # Tests für Benutzerverwaltung
+├── .env                       # Umgebungsvariablen
+├── requirements.txt           # Python-Abhängigkeiten
+├── README.md                  # Projektbeschreibung
+└── run.py                     # Hauptstartpunkt

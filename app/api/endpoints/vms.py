@@ -64,7 +64,7 @@ def stop_vm(node: str, vmid: int):
 
 # Route: Neue VM erstellen
 @vm_router.post("/{node}/create")
-def create_vm(node: str, vmid: int, name: str, cores: int, memory: int, disk: str, net0: str):
+def create_vm(node: str, vmid: int, name: str, cores: int, memory: int, scsi0: str, net0: str):
     try:
         proxmox = get_proxmox_client()
         proxmox.nodes(node).qemu.post(
@@ -72,10 +72,19 @@ def create_vm(node: str, vmid: int, name: str, cores: int, memory: int, disk: st
             name=name,
             cores=cores,
             memory=memory,
-            disk=disk,
-            net0=net0
+            scsi0=scsi0,  # Erwartet Format wie "local-lvm:128"
+            net0=net0     # Erwartet Format wie "virtio,bridge=vmbr0"
         )
         return {"status": "success", "message": f"VM {name} mit ID {vmid} auf Node {node} erstellt."}
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
+# Route: VM löschen
+@vm_router.delete("/{node}/{vmid}")
+def delete_vm(node: str, vmid: int):
+    try:
+        proxmox = get_proxmox_client()
+        proxmox.nodes(node).qemu(vmid).delete()
+        return {"status": "success", "message": f"VM {vmid} auf Node {node} gelöscht."}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))

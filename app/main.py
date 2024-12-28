@@ -1,5 +1,6 @@
 from fastapi import FastAPI
 from app.api.endpoints import vms
+from app.api.endpoints import lxc
 from dotenv import load_dotenv
 import os
 
@@ -13,8 +14,9 @@ app = FastAPI(
     version="1.0.0",
 )
 
-# Router für VMs einbinden
+# Router für VMs und LXC einbinden
 app.include_router(vms.vm_router, prefix="/vms", tags=["VMs"])
+app.include_router(lxc.lxc_router, prefix="/lxc", tags=["LXC"])
 
 # Root-Route
 @app.get("/")

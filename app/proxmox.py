@@ -34,8 +34,7 @@ def get_proxmox_client():
             user=token_name,
             password=token_value,
             verify_ssl=False,
-            service="pve",
-            backend="https"
+            service="pve"
         )
         return proxmox
     except Exception as e:

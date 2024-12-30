@@ -32,7 +32,7 @@ def create_container(
     hostname: str = "default-container",
     memory: int = 1024,
     storage: str = "local-lvm",  # Speicherort
-    size: str = "8",  # Größe des Root-Dateisystems
+    size: str = "24",  # Größe des Root-Dateisystems
     net_name: str = "eth0",
     bridge: str = "vmbr0",
     ip: str = "dhcp",
@@ -123,5 +123,16 @@ def delete_container(node: str, vmid: int):
         proxmox = get_proxmox_client()
         proxmox.nodes(node).lxc(vmid).delete()
         return {"status": "success", "message": f"Container {vmid} auf Node {node} gelöscht."}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+# Route: Stop und Lösche einen Container
+@lxc_router.delete("/{node}/containers/{vmid}/stopdel")
+def stopdel_container(node: str, vmid: int):
+    try:
+        proxmox = get_proxmox_client()
+        proxmox.nodes(node).lxc(vmid).status.stop.post()
+        proxmox.nodes(node).lxc.node(vmid).delete()
+        return {"status": "success", "message": f"container {vmid} auf Node {node} wurde erfolgreich gestoppt und gelöscht."}
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
